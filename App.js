@@ -14,7 +14,6 @@ import {
   Modal,
 } from 'react-native';
 import Home from './screens/Home';
-import About from './screens/About';
 import Subjects from './screens/Subjects';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
