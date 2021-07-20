@@ -1,18 +1,35 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {StyleSheet, Text, View, Button} from 'react-native';
-import {addSubject} from '../redux/actions';
+import {addUser} from '../redux/actions';
+import axios from 'axios';
+
 class Subjects extends React.Component {
+  state = {
+    users: [],
+  };
+
+  componentDidMount() {
+    axios('https://jsonplaceholder.typicode.com/users')
+      .then(({data}) => {
+        this.setState({users: data});
+      })
+      .catch(err => {
+        console.log(err.response);
+        console.log(err);
+      });
+  }
+
   render() {
     return (
       <View>
         <Text>Select Subjects Below!</Text>
 
-        {this.props.subjects.all_subjects.map((subject, index) => (
+        {this.state.users.map((user, index) => (
           <Button
-            key={subject}
-            title={`Add ${subject}`}
-            onPress={() => this.props.dispatch(addSubject(index))}
+            key={user.id}
+            title={`Add ${user.name}`}
+            onPress={() => this.props.dispatch(addUser(user))}
           />
         ))}
 
@@ -20,6 +37,7 @@ class Subjects extends React.Component {
           title="Back to home"
           onPress={() => this.props.navigation.navigate('home')}
         />
+        <Text>You have {this.props.users.users.length} subjects.</Text>
       </View>
     );
   }
@@ -28,8 +46,8 @@ class Subjects extends React.Component {
 //...
 
 const mapStateToProps = state => {
-  const {subjects} = state;
-  return {subjects};
+  const {users} = state;
+  return {users};
 };
 
 export default connect(mapStateToProps)(Subjects);

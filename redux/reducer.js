@@ -1,47 +1,27 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {persistReducer} from 'redux-persist';
 import {combineReducers} from 'redux';
 
 const INITIAL_STATE = {
-  current: [],
-  all_subjects: [
-    'Literature',
-    'Speech',
-    'Writing',
-    'Algebra',
-    'Geometry',
-    'Statistics',
-    'Chemisrty',
-    'Biology',
-    'Physics',
-    'Economics',
-    'Geography',
-    'History',
-  ],
+  users: [],
 };
 
-const subjectsReducer = (state = INITIAL_STATE, action) => {
+const usersReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SELECT_SUBJECT':
-      // copy the state
-      const {current, all_subjects} = state;
-
-      //remove a subject from the all_subjects array
-
-      const addedSubject = all_subjects.splice(action.payload, 1);
-
-      // put subject in current array
-      current.push(addedSubject);
-
-      // update the redux state to reflect the change
-      const newState = {current, all_subjects};
-
-      //return new state
-      return newState;
+    case 'ADD_USER':
+      return {users: [...state.users, action.payload]};
 
     default:
       return state;
   }
 };
 
+const persistConfig = {
+  key: 'root',
+  storage: AsyncStorage,
+  whitelist: ['users'],
+};
+
 export default combineReducers({
-  subjects: subjectsReducer,
+  users: persistReducer(persistConfig, usersReducer),
 });

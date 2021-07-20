@@ -9,7 +9,7 @@ class Home extends React.Component {
   render() {
     return (
       <View>
-        <Text>You have {this.props.subjects.current.length} subjects.</Text>
+        <Text>You have {this.props.users.users.length} subjects.</Text>
         <Button
           title="Select more subjects"
           onPress={() => this.props.navigation.navigate('subjects')}
@@ -20,8 +20,8 @@ class Home extends React.Component {
 }
 
 const mapStateToProps = state => {
-  const {subjects} = state;
-  return {subjects};
+  let {users} = state;
+  return {users};
 };
 
 export default connect(mapStateToProps)(Home);

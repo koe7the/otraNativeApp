@@ -1,4 +1,4 @@
-export const addSubject = subjectsIndex => ({
-  type: 'SELECT_SUBJECT',
-  payload: subjectsIndex,
+export const addUser = user => ({
+  type: 'ADD_USER',
+  payload: user,
 });

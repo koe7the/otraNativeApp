@@ -18,23 +18,23 @@ import Subjects from './screens/Subjects';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
-import subjectsReducer from './redux/reducer';
-
+import {store, persistor} from './redux';
 const Stack = createStackNavigator();
-const store = createStore(subjectsReducer);
+import {PersistGate} from 'redux-persist/integration/react';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="home"
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name="home" component={Home} />
-          <Stack.Screen name="subjects" component={Subjects} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="home"
+            screenOptions={{headerShown: false}}>
+            <Stack.Screen name="home" component={Home} />
+            <Stack.Screen name="subjects" component={Subjects} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 }
